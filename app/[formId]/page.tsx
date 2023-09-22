@@ -41,7 +41,7 @@ export default function Page() {
       };
 
       const bodyContent = JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-3.5-turbo-0613",
         messages: [
           {
             role: "system",
@@ -49,7 +49,7 @@ export default function Page() {
           },
           {
             role: "user",
-            content: `${q1}. generate just one additional question you would like to ask me.`,
+            content: `${q1}. generate just one additional question you would like to ask me based on my answer.`,
           },
         ],
       });
