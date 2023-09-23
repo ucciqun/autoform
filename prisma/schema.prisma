@@ -40,6 +40,7 @@ model Choice{
   id Int @id @default(autoincrement())
   fieldId Int
   label String
+  label_id String
 
   field Field @relation(fields: [fieldId], references: [id])
 }
