@@ -25,13 +25,9 @@ export function ObjectiveForm() {
 
   async function onSubmit(data: z.infer<typeof initialFormSchema>) {
     setLoading(true);
-    fetch("/api/survey", {
+    const res = await fetch("/api/survey", {
       method: "POST",
       body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "*/*",
-      },
     });
     setLoading(false);
   }
