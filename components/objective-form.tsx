@@ -16,19 +16,23 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function ObjectiveForm() {
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof initialFormSchema>>({
     resolver: zodResolver(initialFormSchema),
   });
+  const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof initialFormSchema>) {
     setLoading(true);
-    const res = await fetch("/api/survey", {
+    const res = await fetch("/api/form", {
       method: "POST",
       body: JSON.stringify(data),
     });
+    const { id }: { id: string } = await res.json();
+    router.push(`/${id}`);
     setLoading(false);
   }
 
