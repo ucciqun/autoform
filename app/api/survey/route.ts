@@ -1,11 +1,7 @@
+import { db } from "@/lib/db";
+import { FormSchema } from "@/types";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-
-function create_form(label: string, description: string, fields: {
-  type: "checkbox" | "input" | "textarea",
-  description: string,
-  choices?: { id: string, label: string }[]
-}) { }
 
 export async function POST(request: Request) {
   const openai = new OpenAI({
@@ -86,5 +82,29 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(res);
+  const generatedFormData = JSON.parse(res.choices[0].message.function_call?.arguments || "{}") as FormSchema; // TODO: validate generated form data with formSchema
+  const { id } = await db.form.create({
+    data: {
+      label: generatedFormData.label,
+      description: generatedFormData.description,
+      fields: {
+        create: generatedFormData.fields.map((field) => {
+          return {
+            type: field.type,
+            description: field.description,
+            choices: {
+              create: field.choices?.map((choice) => {
+                return {
+                  id: choice.id,
+                  label: choice.label,
+                };
+              }),
+            },
+          };
+        }),
+      },
+    }
+  })
+
+  return NextResponse.redirect(new URL(`/form/${id}`, request.url));
 }
