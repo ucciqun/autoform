@@ -43,7 +43,7 @@ export async function POST(request: Request) {
                   items: {
                     type: "object",
                     properties: {
-                      id: {
+                      label_id: {
                         type: "string",
                         description: "The id of the choice.",
                       },
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content: `You behave as a questionnaire. Generate ${question_num} questions based on my goals. Goal:${objective}`
+        content: `You behave as a questionnaire. Generate ${question_num} questions based on my goals. Goal:${objective}`,
       },
       {
         role: "user",
@@ -82,7 +82,9 @@ export async function POST(request: Request) {
     },
   });
 
-  const generatedFormData = JSON.parse(res.choices[0].message.function_call?.arguments || "{}") as FormSchema; // TODO: validate generated form data with formSchema
+  const generatedFormData = JSON.parse(
+    res.choices[0].message.function_call?.arguments || "{}"
+  ) as FormSchema; // TODO: validate generated form data with formSchema
   const { id } = await db.form.create({
     data: {
       label: generatedFormData.label,
@@ -95,16 +97,16 @@ export async function POST(request: Request) {
             choices: {
               create: field.choices?.map((choice) => {
                 return {
-                  id: choice.id,
                   label: choice.label,
+                  label_id: choice.label_id,
                 };
               }),
             },
           };
         }),
       },
-    }
-  })
+    },
+  });
 
-  return NextResponse.redirect(new URL(`/form/${id}`, request.url));
+  return NextResponse.json({ id });
 }

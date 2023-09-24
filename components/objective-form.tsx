@@ -1,6 +1,6 @@
 "use client";
 
-import { initialFormSchema } from "@/lib/schema";
+import { objectiveFormSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -20,12 +20,12 @@ import { useRouter } from "next/navigation";
 
 export function ObjectiveForm() {
   const [loading, setLoading] = useState(false);
-  const form = useForm<z.infer<typeof initialFormSchema>>({
-    resolver: zodResolver(initialFormSchema),
+  const form = useForm<z.infer<typeof objectiveFormSchema>>({
+    resolver: zodResolver(objectiveFormSchema),
   });
   const router = useRouter();
 
-  async function onSubmit(data: z.infer<typeof initialFormSchema>) {
+  async function onSubmit(data: z.infer<typeof objectiveFormSchema>) {
     setLoading(true);
     const res = await fetch("/api/form", {
       method: "POST",
@@ -41,7 +41,7 @@ export function ObjectiveForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="objective"
+          name="objective.value"
           render={({ field }) => (
             <FormItem>
               <FormLabel>

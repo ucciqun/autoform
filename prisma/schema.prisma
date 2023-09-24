@@ -15,6 +15,7 @@ model Form{
   label String
   description String
   fields Field[]
+  responses Response[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,21 +27,38 @@ model Field{
   type String
   description String
   choices Choice[]
+  answers Answer[]
 
   form Form @relation(fields: [formId], references: [id])
 }
-
-// enum FieldType {
-//   CHECKBOX
-//   INPUT
-//   TEXTAREA
-// }
 
 model Choice{
   id Int @id @default(autoincrement())
   fieldId Int
   label String
   label_id String
+  answers Answer[]
 
   field Field @relation(fields: [fieldId], references: [id])
+}
+
+model Response{
+  id String @id @default(uuid())
+  formId String
+  answers Answer[]
+
+  form Form @relation(fields: [formId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Answer{
+  id Int @id @default(autoincrement())
+  responseId String
+  fieldId Int
+  value String?
+  choiceId Int?
+
+  response Response @relation(fields: [responseId], references: [id])
+  field Field @relation(fields: [fieldId], references: [id])
+  choice Choice? @relation(fields: [choiceId], references: [id])
 }

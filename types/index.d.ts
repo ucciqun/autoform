@@ -1,9 +1,13 @@
 export type FormSchema = {
-    label: string,
-    description: string,
-    fields: {
-        type: "checkbox" | "input" | "textarea",
-        description: string,
-        choices?: { id: string, label: string }[]
-    }[]
-}
+  id: string;
+  label: string;
+  description: string;
+  fields: {
+    id: number;
+    type: "checkbox" | "input" | "textarea";
+    description: string;
+    choices?: { id: number; label: string; label_id: string }[];
+  }[];
+  createdAt: Date;
+  updatedAt: Date;
+};
