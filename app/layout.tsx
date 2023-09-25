@@ -2,6 +2,7 @@ import { Disc3 } from "lucide-react";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header className="p-4">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Disc3 className="w-6 h-6 animate-spin" />
             <h1 className="text-xl font-bold text-foreground italic">
               AutoForm
             </h1>
-          </div>
+          </Link>
         </header>
         {children}
       </body>
