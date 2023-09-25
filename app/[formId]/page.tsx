@@ -28,19 +28,21 @@ export default async function Page({ params }: { params: { formId: string } }) {
   const fields = form.fields as FormSchema["fields"];
 
   return (
-    <div className="container p-4 grid grid-cols-8">
-      <header className="py-6 gap-2 col-start-2 col-span-6 text-center">
-        <h1 className="text-3xl font-bold text-foreground">{form.label}</h1>
-        <p className="text-lg text-foreground/50">{form.description}</p>
-      </header>
-      <div className="col-start-2 col-span-6">
-        <InitialForm
-          label={form.label}
-          description={form.description}
-          fields={fields}
-          formId={form.id}
-        />
-      </div>
+    <div className="container p-4 max-w-lg">
+      <section>
+        <header className="flex flex-col gap-2 py-6 text-center">
+          <h1 className="text-3xl font-bold text-foreground">{form.label}</h1>
+          <p className="text-lg text-foreground/50">{form.description}</p>
+        </header>
+        <div className="col-start-2 col-span-6">
+          <InitialForm
+            label={form.label}
+            description={form.description}
+            fields={fields}
+            formId={form.id}
+          />
+        </div>
+      </section>
     </div>
   );
 }
