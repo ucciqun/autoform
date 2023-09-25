@@ -24,6 +24,7 @@ interface Props {
   description: string;
   fields: FormType["fields"];
   formId: string;
+  disabled?: boolean;
 }
 
 const getInitialValue = (
@@ -48,9 +49,7 @@ const getInitialValue = (
   }
 };
 
-export default function Page({ fields, formId }: Props) {
-  const searchParams = useSearchParams();
-  const disabled = searchParams.get("mode") === "edit";
+export default function Page({ fields, formId, disabled = false }: Props) {
   const initialValue = fields.reduce<FormSchema>(
     (acc, field) => ({
       ...acc,
