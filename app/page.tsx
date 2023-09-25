@@ -2,7 +2,6 @@ import { ObjectiveForm } from "@/components/objective-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -16,7 +15,7 @@ export default async function Home() {
     orderBy: {
       updatedAt: "desc",
     },
-    take: 3,
+    // take: 3,
   });
   return (
     <main className="container p-4 max-w-lg">
@@ -51,7 +50,7 @@ export default async function Home() {
                         </Link>
                       </Button> */}
                       <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/${form.id}?mode=edit`}>
+                        <Link href={`/${form.id}/edit`}>
                           <Settings2 className="w-4 h-4" />
                         </Link>
                       </Button>
