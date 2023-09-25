@@ -1,6 +1,7 @@
 import { BackButton } from "@/components/back-button";
 import { CopyButton } from "@/components/copy-button";
 import { RespButton } from "@/components/resp-button";
+import { Tabs } from "@/components/tabs";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { ExternalLink, LinkIcon, Settings2 } from "lucide-react";
@@ -22,16 +23,21 @@ export default async function Page({ params }: PageProps) {
     },
     take: 10,
   });
+  const respCount = await db.response.count({
+    where: {
+      formId: params.formId,
+    },
+  });
   return (
     <div>
-      <header className="flex flex-col">
-        <div className="flex justify-between p-4 border-b border-foreground/10 gap-4">
+      <header className="flex flex-col border-b border-foreground/10">
+        <div className="flex justify-between px-4 gap-4">
           <BackButton />
           <div className="flex items-center gap-4">
             <Button variant="outline" size="sm" asChild>
-              <Link href={`/${params.formId}/edit`}>
+              <Link href={`/${params.formId}/preview`}>
                 <Settings2 className="w-4 h-4 mr-2" />
-                Edit
+                Preview
               </Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
@@ -52,6 +58,7 @@ export default async function Page({ params }: PageProps) {
             </CopyButton>
           </div>
         </div>
+        <Tabs formId={params.formId} respCount={respCount} />
       </header>
       <div className="container max-w-lg">
         <ul>
