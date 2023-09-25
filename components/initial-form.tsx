@@ -17,6 +17,7 @@ import { type FormSchema as FormType } from "@/types";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   label: string;
@@ -48,6 +49,8 @@ const getInitialValue = (
 };
 
 export default function Page({ fields, formId }: Props) {
+  const searchParams = useSearchParams();
+  const disabled = searchParams.get("mode") === "edit";
   const initialValue = fields.reduce<FormSchema>(
     (acc, field) => ({
       ...acc,
@@ -70,98 +73,100 @@ export default function Page({ fields, formId }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {fields.map((form_field, index) => (
-          <FormField
-            key={form_field.id}
-            control={form.control}
-            name={`${form_field.id}`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Question {index + 1}</FormLabel>
-                <FormDescription>{form_field.description}</FormDescription>
-                <FormControl>
-                  <>
-                    {form_field.type === "input" && (
-                      <Input
-                        {...field}
-                        value={field.value.value}
-                        onChange={(e) => {
-                          field.onChange({
-                            type: "input",
-                            value: e.target.value,
-                          });
-                        }}
-                        placeholder="Type your answer here."
-                      />
-                    )}
-                    {form_field.type === "textarea" && (
-                      <Textarea
-                        {...field}
-                        value={field.value.value}
-                        onChange={(e) => {
-                          field.onChange({
-                            type: "textarea",
-                            value: e.target.value,
-                          });
-                        }}
-                        placeholder="Type your answer here."
-                      />
-                    )}
-                    {form_field.type === "checkbox" && (
-                      <>
-                        {form_field.choices?.map((choice) => (
-                          <FormField
-                            key={choice.label_id}
-                            control={form.control}
-                            name={`${form_field.id}`}
-                            render={({ field }) => (
-                              <FormItem
-                                key={choice.label_id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value.value.includes(
-                                      choice.label_id
-                                    )}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange({
-                                            type: "checkbox",
-                                            value: [
-                                              ...(field.value
-                                                .value as string[]),
-                                              choice.label_id,
-                                            ],
-                                          })
-                                        : field.onChange({
-                                            type: "checkbox",
-                                            value: (
-                                              field.value.value as string[]
-                                            ).filter(
-                                              (v) => v !== choice.label_id
-                                            ),
-                                          });
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel>{choice.label}</FormLabel>
-                              </FormItem>
-                            )}
-                          />
-                        ))}
-                      </>
-                    )}
-                  </>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <Button type="submit">Continue</Button>
-      </form>
+      <fieldset disabled={disabled}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {fields.map((form_field, index) => (
+            <FormField
+              key={form_field.id}
+              control={form.control}
+              name={`${form_field.id}`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Question {index + 1}</FormLabel>
+                  <FormDescription>{form_field.description}</FormDescription>
+                  <FormControl>
+                    <>
+                      {form_field.type === "input" && (
+                        <Input
+                          {...field}
+                          value={field.value.value}
+                          onChange={(e) => {
+                            field.onChange({
+                              type: "input",
+                              value: e.target.value,
+                            });
+                          }}
+                          placeholder="Type your answer here."
+                        />
+                      )}
+                      {form_field.type === "textarea" && (
+                        <Textarea
+                          {...field}
+                          value={field.value.value}
+                          onChange={(e) => {
+                            field.onChange({
+                              type: "textarea",
+                              value: e.target.value,
+                            });
+                          }}
+                          placeholder="Type your answer here."
+                        />
+                      )}
+                      {form_field.type === "checkbox" && (
+                        <>
+                          {form_field.choices?.map((choice) => (
+                            <FormField
+                              key={choice.label_id}
+                              control={form.control}
+                              name={`${form_field.id}`}
+                              render={({ field }) => (
+                                <FormItem
+                                  key={choice.label_id}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value.value.includes(
+                                        choice.label_id
+                                      )}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange({
+                                              type: "checkbox",
+                                              value: [
+                                                ...(field.value
+                                                  .value as string[]),
+                                                choice.label_id,
+                                              ],
+                                            })
+                                          : field.onChange({
+                                              type: "checkbox",
+                                              value: (
+                                                field.value.value as string[]
+                                              ).filter(
+                                                (v) => v !== choice.label_id
+                                              ),
+                                            });
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel>{choice.label}</FormLabel>
+                                </FormItem>
+                              )}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button type="submit">Continue</Button>
+        </form>
+      </fieldset>
     </Form>
   );
 }
