@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { formId: string } }) {
   const fields = form.fields as FormSchema["fields"];
 
   return (
-    <div className="container p-4 max-w-lg">
+    <div className="container p-4 max-w-lg min-h-screen">
       <section>
         <header className="flex flex-col gap-2 py-6 text-center">
           <h1 className="text-3xl font-bold text-foreground">{form.label}</h1>
