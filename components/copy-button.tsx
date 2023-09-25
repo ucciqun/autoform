@@ -17,7 +17,7 @@ export const CopyButton = ({ url, children, icon }: CopyButtonProps) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setCopied(false);
-    }, 2000);
+    }, 5000);
     return () => clearTimeout(timeout);
   }, [copied]);
 
@@ -29,6 +29,7 @@ export const CopyButton = ({ url, children, icon }: CopyButtonProps) => {
         navigator.clipboard.writeText(url);
         setCopied(true);
       }}
+      className={`${copied && "duration-0 bg-green-600 hover:bg-green-600"}`}
     >
       {copied ? <Check className="w-4 h-4 mr-2" /> : icon}
       {copied ? "Copied" : children}
