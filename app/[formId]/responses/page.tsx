@@ -1,10 +1,9 @@
 import { BackButton } from "@/components/back-button";
 import { CopyButton } from "@/components/copy-button";
-import { RespButton } from "@/components/resp-button";
 import { Tabs } from "@/components/tabs";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
-import { ExternalLink, LinkIcon, Settings2 } from "lucide-react";
+import { ExternalLink, LinkIcon } from "lucide-react";
 import Link from "next/link";
 interface PageProps {
   params: { formId: string };
@@ -35,12 +34,6 @@ export default async function Page({ params }: PageProps) {
           <BackButton />
           <div className="flex items-center gap-4">
             <Button variant="outline" size="sm" asChild>
-              <Link href={`/${params.formId}/preview`}>
-                <Settings2 className="w-4 h-4 mr-2" />
-                Preview
-              </Link>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
               <Link
                 href={`/${params.formId}`}
                 rel="noopener noreferrer"
@@ -63,13 +56,7 @@ export default async function Page({ params }: PageProps) {
       <div className="container max-w-lg">
         <ul>
           {responses.map((response) => (
-            <li key={response.id}>
-              <ul>
-                {response.answers.map((answer) => (
-                  <li key={answer.id}>{answer.value}</li>
-                ))}
-              </ul>
-            </li>
+            <li key={response.id}></li>
           ))}
         </ul>
       </div>

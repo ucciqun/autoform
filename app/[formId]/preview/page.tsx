@@ -1,7 +1,6 @@
 import { BackButton } from "@/components/back-button";
 import { CopyButton } from "@/components/copy-button";
 import InitialForm from "@/components/initial-form";
-import { RespButton } from "@/components/resp-button";
 import { Tabs } from "@/components/tabs";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
@@ -48,7 +47,6 @@ export default async function Page({ params }: PageProps) {
         <div className="flex justify-between px-4 gap-4">
           <BackButton />
           <div className="flex items-center gap-4">
-            <RespButton formId={params.formId} />
             <Button variant="outline" size="sm" asChild>
               <Link
                 href={`/${params.formId}`}
