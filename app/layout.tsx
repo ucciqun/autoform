@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,15 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="p-4">
-          <Link href="/" className=" items-center gap-2 inline-flex">
-            <Disc3 className="w-6 h-6 animate-spin" />
-            <h1 className="text-xl font-bold text-foreground italic">
-              AutoForm
-            </h1>
-          </Link>
-        </header>
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
