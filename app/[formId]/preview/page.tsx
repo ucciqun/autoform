@@ -2,6 +2,7 @@ import { BackButton } from "@/components/back-button";
 import { CopyButton } from "@/components/copy-button";
 import InitialForm from "@/components/initial-form";
 import { RespButton } from "@/components/resp-button";
+import { Tabs } from "@/components/tabs";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { FormSchema } from "@/types";
@@ -29,6 +30,11 @@ export default async function Page({ params }: PageProps) {
       },
     },
   });
+  const respCount = await db.response.count({
+    where: {
+      formId: params.formId,
+    },
+  });
 
   if (!form) {
     notFound();
@@ -38,8 +44,8 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div>
-      <header className="flex flex-col">
-        <div className="flex justify-between p-4 border-b border-foreground/10 gap-4">
+      <header className="flex flex-col border-b border-foreground/10">
+        <div className="flex justify-between px-4 gap-4">
           <BackButton />
           <div className="flex items-center gap-4">
             <RespButton formId={params.formId} />
@@ -61,6 +67,7 @@ export default async function Page({ params }: PageProps) {
             </CopyButton>
           </div>
         </div>
+        <Tabs formId={params.formId} respCount={respCount} />
       </header>
 
       <div className="bg-foreground/5">

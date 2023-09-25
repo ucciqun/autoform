@@ -50,7 +50,7 @@ export default async function Home() {
                         </Link>
                       </Button> */}
                       <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/${form.id}/edit`}>
+                        <Link href={`/${form.id}/preview`}>
                           <Settings2 className="w-4 h-4" />
                         </Link>
                       </Button>
