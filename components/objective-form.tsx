@@ -38,7 +38,7 @@ export function ObjectiveForm() {
       body: JSON.stringify(data),
     });
     const { id }: { id: string } = await res.json();
-    router.push(`/${id}`);
+    router.push(`/${id}/preview`);
     setLoading(false);
   }
 
