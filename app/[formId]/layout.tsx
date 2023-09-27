@@ -14,9 +14,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   });
   return (
     <div>
-      <header>
-        <FormHeader formId={params.formId} respCount={respCount} />
-      </header>
+      <FormHeader formId={params.formId} respCount={respCount} />
       {children}
     </div>
   );

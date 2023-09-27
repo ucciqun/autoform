@@ -1,11 +1,11 @@
-import { BackButton } from "@/components/back-button";
-import { CopyButton } from "@/components/copy-button";
-import { Tabs } from "@/components/tabs";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { db } from "@/lib/db";
-import { ExternalLink, LinkIcon } from "lucide-react";
-import Link from "next/link";
 interface PageProps {
   params: { formId: string };
 }
@@ -18,24 +18,51 @@ export default async function Page({ params }: PageProps) {
       createdAt: "asc",
     },
     select: {
-      answers: true,
+      answers: {
+        select: {
+          field: true,
+          value: true,
+        },
+        orderBy: {
+          id: "desc",
+        },
+      },
       id: true,
+      createdAt: true,
     },
     take: 10,
   });
-  const respCount = await db.response.count({
-    where: {
-      formId: params.formId,
-    },
-  });
+
   return (
     <div className="container max-w-lg">
-      <ul>
-        {responses.map((response) => (
-          <li key={response.id}>
-            <Card></Card>
-          </li>
-        ))}
+      <ul className="py-4 space-y-4">
+        {responses.map((response) => {
+          if (response.answers.length === 0) return null;
+          return (
+            <li key={response.id}>
+              <Card>
+                {/* <CardHeader>
+                  <CardDescription>
+                    {new Date(response.createdAt).toLocaleString()}
+                  </CardDescription>
+                </CardHeader> */}
+                <CardContent>
+                  {response.answers.map((answer, i) => (
+                    <div
+                      key={answer.value}
+                      className="py-4 flex flex-col gap-2"
+                    >
+                      <h3 className="text-base text-foreground/70">{`${answer.field.description}`}</h3>
+                      <p className="p-2 bg-foreground/5 rounded-md">
+                        {answer.value}
+                      </p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -17,7 +17,7 @@ export const FormHeader = ({ formId, respCount }: FormHeaderProps) => {
   const segment = useSelectedLayoutSegment();
   if (!segment) return null;
   return (
-    <header className="flex flex-col border-b border-foreground/10">
+    <header className="flex flex-col border-b border-foreground/10 sticky top-0 backdrop-blur">
       <div className="flex justify-between px-4 gap-4">
         <BackButton />
         <div className="flex items-center gap-4">

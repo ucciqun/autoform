@@ -7,7 +7,13 @@ export async function POST(request: Request) {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
-  const { objective }: { objective: string } = await request.json(); // TODO: validate request body with formSchema
+  const body: {
+    objective: {
+      type: "textarea";
+      value: string;
+    };
+  } = await request.json(); // TODO: validate request body with formSchema
+  const objective = body.objective.value;
 
   const functions = [
     {
@@ -18,11 +24,13 @@ export async function POST(request: Request) {
         properties: {
           label: {
             type: "string",
-            description: "The label of the form.",
+            description:
+              "The title of the form. #example: 株式会社任天堂のエントリーフォーム",
           },
           description: {
             type: "string",
-            description: "The description of the form.",
+            description:
+              "The description of the form. #example: これは、任天堂のエントリーフォームです。以下の質問に答えてください。",
           },
           fields: {
             type: "array",
@@ -32,7 +40,7 @@ export async function POST(request: Request) {
                 type: {
                   type: "string",
                   description: "The type of the field.",
-                  enum: ["checkbox", "input", "textarea"],
+                  enum: ["checkbox", "input", "textarea", "radio"],
                 },
                 description: {
                   type: "string",
@@ -73,7 +81,7 @@ export async function POST(request: Request) {
       },
       {
         role: "user",
-        content: `The goals I would like to achieve with this survey are as follows:${objective}. Generate only three simple questions to ask to achieve this goal. The questions should be simple and easy to answer.`,
+        content: `The goals I would like to achieve with this survey are as follows:${objective}. Generate only three simple questions to ask to achieve this goal.`,
       },
     ],
     functions: functions,
@@ -89,6 +97,7 @@ export async function POST(request: Request) {
     data: {
       label: generatedFormData.label,
       description: generatedFormData.description,
+      objective: objective,
       fields: {
         create: generatedFormData.fields.map((field) => {
           return {

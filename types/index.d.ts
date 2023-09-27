@@ -4,7 +4,7 @@ export type FormSchema = {
   description: string;
   fields: {
     id: number;
-    type: "checkbox" | "input" | "textarea";
+    type: "checkbox" | "input" | "textarea" | "radio";
     description: string;
     choices?: { id: number; label: string; label_id: string }[];
   }[];

@@ -8,6 +8,9 @@ export default async function Page({ params }: { params: { formId: string } }) {
     where: { id: params.formId },
     include: {
       fields: {
+        where: {
+          isAdditionalField: false,
+        },
         include: {
           choices: {
             select: {

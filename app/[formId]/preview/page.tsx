@@ -1,12 +1,6 @@
-import { BackButton } from "@/components/back-button";
-import { CopyButton } from "@/components/copy-button";
 import InitialForm from "@/components/initial-form";
-import { Tabs } from "@/components/tabs";
-import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { FormSchema } from "@/types";
-import { ExternalLink, LinkIcon } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface PageProps {
@@ -17,6 +11,9 @@ export default async function Page({ params }: PageProps) {
     where: { id: params.formId },
     include: {
       fields: {
+        where: {
+          isAdditionalField: false,
+        },
         include: {
           choices: {
             select: {
