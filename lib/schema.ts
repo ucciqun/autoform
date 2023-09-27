@@ -15,6 +15,11 @@ const checkboxSchema = z.object({
     }),
 });
 
+const radioSchema = z.object({
+  type: z.literal("radio"),
+  value: z.string().min(1).max(255),
+});
+
 const inputSchema = z.object({
   type: z.literal("input"),
   value: z.string().min(1).max(255),
@@ -24,6 +29,7 @@ const fieldSchema = z.discriminatedUnion("type", [
   checkboxSchema,
   inputSchema,
   textareaSchema,
+  radioSchema,
 ]);
 
 export const formSchema = z.record(fieldSchema);
