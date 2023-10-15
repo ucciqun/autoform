@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
-import { MoveRight, Settings2 } from "lucide-react";
+import { Settings2 } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {

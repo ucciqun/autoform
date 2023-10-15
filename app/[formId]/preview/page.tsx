@@ -26,11 +26,6 @@ export default async function Page({ params }: PageProps) {
       },
     },
   });
-  const respCount = await db.response.count({
-    where: {
-      formId: params.formId,
-    },
-  });
 
   if (!form) {
     notFound();

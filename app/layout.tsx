@@ -1,8 +1,6 @@
-import { Disc3 } from "lucide-react";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 
