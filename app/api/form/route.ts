@@ -15,6 +15,18 @@ export async function POST(request: Request) {
   } = await request.json(); // TODO: validate request body with formSchema
   const objective = body.objective.value;
 
+  // function create_form(
+  //   label: string,
+  //   description: string,
+  //   fields: {
+  //     type: "checkbox" | "input" | "textarea" | "radio";
+  //     description: string;
+  //     choices?: {
+  //       label_id: string;
+  //       label: string;
+  //     }[];
+  //   }[]
+  // ) {}
   const functions = [
     {
       name: "create_form",
@@ -71,7 +83,7 @@ export async function POST(request: Request) {
     },
   ];
 
-  const question_num = 3;
+  const question_num = 5;
   const res = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [
