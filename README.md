@@ -23,3 +23,11 @@ npx prisma db push
 npx prisma generate
 npm run dev
 ```
+
+## Authors
+
+ucciqun <https://github.com/ucciqun>
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
